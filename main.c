@@ -65,17 +65,31 @@ int main() {
 
 void iniciar(int tam, char tema[TAM_MAX][MAX_STRING], int qtdPares) {
     Carta carta[TAM_MAX][TAM_MAX];
+    char palavrasSelecionadas[qtdPares][MAX_STRING]; // Vetor para armazenar as palavras necessárias
 
-    // Preenche o tabuleiro com as cartas e palavras do tema
-    int cartaTema = 0;
+    // Preencher o vetor repetindo palavras até alcançar a quantidade necessária
+    for (int i = 0; i < qtdPares; i++) {
+        strcpy(palavrasSelecionadas[i], tema[i % TAM_MAX]); // Repete palavras se necessário
+    }
+
+    // Embaralha as palavras antes de distribuir no tabuleiro
+    for (int i = 0; i < qtdPares; i++) {
+        int r = rand() % qtdPares;
+        char temp[MAX_STRING];
+        strcpy(temp, palavrasSelecionadas[i]);
+        strcpy(palavrasSelecionadas[i], palavrasSelecionadas[r]);
+        strcpy(palavrasSelecionadas[r], temp);
+    }
+
+    // Preenche o tabuleiro com os pares
+    int index = 0;
     for (int i = 0; i < tam; i++) {
         for (int j = 0; j < tam; j += 2) {
-            strcpy(carta[i][j].palavra, tema[cartaTema]);  // Atribui a palavra para a carta
-            strcpy(carta[i][j + 1].palavra, tema[cartaTema]);  // Atribui a mesma palavra para a carta seguinte
-            carta[i][j].revelado = 0;  // Inicializa as cartas como não reveladas
+            strcpy(carta[i][j].palavra, palavrasSelecionadas[index]);
+            strcpy(carta[i][j + 1].palavra, palavrasSelecionadas[index]);
+            carta[i][j].revelado = 0;
             carta[i][j + 1].revelado = 0;
-            cartaTema++;  // Passa para a próxima palavra do tema
-            if (cartaTema >= qtdPares) cartaTema = 0;  // Impede ultrapassar as palavras do tema
+            index++;
         }
     }
 
@@ -122,13 +136,13 @@ void jogar(Carta tema[TAM_MAX][TAM_MAX], int tamanho) {
         printf("\nEscolha a primeira carta: ");
         printf("\nDigite uma linha: ");
         scanf("%d", &x1);
-        printf("Digitem uma coluna: ");
+        printf("Digite uma coluna: ");
         scanf("%d",&y1);
 
         printf("Escolha a segunda carta: ");
         printf("\nDigite uma linha: ");
         scanf("%d", &x2);
-        printf("Digitem uma coluna: ");
+        printf("Digite uma coluna: ");
         scanf("%d",&y2);
 
         if (x1 == x2 && y1 == y2) { //verificar se o usuário escolheu as mesmas cartas
@@ -137,7 +151,7 @@ void jogar(Carta tema[TAM_MAX][TAM_MAX], int tamanho) {
         } else if(tema[x1][y1].revelado == 1 || tema[x2][y2].revelado == 1){  //verificar se escolheu cartas já reveladas
             printf("Erro! Escolha cartas que ainda não formaram um par!\n");
             continue;
-        } else if((x1 < 0 || x1 > 3) || (y1 < 0 || y1 > 3) || (x2 < 0 || x2 > 3) || (y2 < 0 || y2 > 3)){    //verificar se o número da carta está dentro da matriz
+        } else if((x1 < 0 || x1 >= tamanho) || (y1 < 0 || y1 >= tamanho) || (x2 < 0 || x2 >= tamanho) || (y2 < 0 || y2 >= tamanho)){    //verificar se o número da carta está dentro da matriz
             printf("Erro! Escolha cartas válidas (0 a 3)!\n");
             continue;
         }
