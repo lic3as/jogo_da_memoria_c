@@ -34,6 +34,7 @@ int main() {
     int tema;
     // decidir se quer ou não continuar
     char continuar;
+    int tamanho = 4;    //tabuleiro de tamanho 4
     do{
         do {
             printf("Bem-vindo ao Jogo da Memória!\nTemas:\n");
@@ -45,14 +46,6 @@ int main() {
             if (tema < 0 || tema > 2) printf("Opção inválida! Tente novamente.\n"); // testar se o tema é válido
         } while (tema < 0 || tema > 2);
         
-        // Selecionar tamanho
-        int tamanho;
-        do {
-            printf("Escolha o tamanho do tabuleiro (4 - 6 - 8 - 10): ");
-            scanf("%d", &tamanho);
-            if (tamanho < TAM_MIN || tamanho > TAM_MAX) printf("Tamanho inválido! Tente novamente.\n"); // testar se o tema é válido
-        } while (tamanho < TAM_MIN || tamanho > TAM_MAX || (tamanho * tamanho) % 2 != 0);
-
         // Iniciar o jogo
         iniciar(tamanho, temas[tema], tamanho * tamanho / 2);   // Chama a função para criar as cartas do tabuleiro
         //conferir se quer jogar novamente após concluir o jogo
@@ -65,39 +58,24 @@ int main() {
 
 void iniciar(int tam, char tema[TAM_MAX][MAX_STRING], int qtdPares) {
     Carta carta[TAM_MAX][TAM_MAX];
-    char palavrasSelecionadas[qtdPares][MAX_STRING]; // Vetor para armazenar as palavras necessárias
-
-    // Preencher o vetor repetindo palavras até alcançar a quantidade necessária
-    for (int i = 0; i < qtdPares; i++) {
-        strcpy(palavrasSelecionadas[i], tema[i % TAM_MAX]); // Repete palavras se necessário
-    }
-
-    // Embaralha as palavras antes de distribuir no tabuleiro
-    for (int i = 0; i < qtdPares; i++) {
-        int r = rand() % qtdPares;
-        char temp[MAX_STRING];
-        strcpy(temp, palavrasSelecionadas[i]);
-        strcpy(palavrasSelecionadas[i], palavrasSelecionadas[r]);
-        strcpy(palavrasSelecionadas[r], temp);
-    }
-
-    // Preenche o tabuleiro com os pares
-    int index = 0;
+    // Preenche o tabuleiro com as cartas e palavras do tema
+    int cartaTema = 0;
     for (int i = 0; i < tam; i++) {
         for (int j = 0; j < tam; j += 2) {
-            strcpy(carta[i][j].palavra, palavrasSelecionadas[index]);
-            strcpy(carta[i][j + 1].palavra, palavrasSelecionadas[index]);
-            carta[i][j].revelado = 0;
+            strcpy(carta[i][j].palavra, tema[cartaTema]);  // Atribui a palavra para a carta
+            strcpy(carta[i][j + 1].palavra, tema[cartaTema]);  // Atribui a mesma palavra para a carta seguinte
+            carta[i][j].revelado = 0;  // Inicializa as cartas como não reveladas
             carta[i][j + 1].revelado = 0;
-            index++;
+            cartaTema++;  // Passa para a próxima palavra do tema
+            if (cartaTema >= qtdPares) cartaTema = 0;  // Impede ultrapassar as palavras do tema
         }
     }
-
     // Embaralha as cartas
     embaralhar(carta, tam);
     // inicia o jogo
     jogar(carta, tam); 
 }
+
 
 //função para embaralhar o tabuleiro
 void embaralhar(Carta tema[TAM_MAX][TAM_MAX], int tamanho) {
