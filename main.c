@@ -111,31 +111,36 @@ void jogar(Carta tema[TAM_MAX][TAM_MAX], int tamanho) {
 
     while (paresEncontrados < (tamanho * tamanho) / 2) {    //enquanto a quantidade de pares for menor que a metade do jogo
         exibirTabuleiro(tema, tamanho);
-        printf("\nEscolha a primeira carta: ");
-        printf("\nDigite uma linha (0 a %d): ", tamanho-1);
-        scanf("%d", &x1);
-        printf("Digite uma coluna (0 a %d): ", tamanho-1);
-        scanf("%d",&y1);
-
-        printf("Escolha a segunda carta: ");
-        printf("\nDigite uma linha (0 a %d): ", tamanho-1);
-        scanf("%d", &x2);
-        printf("Digite uma coluna (0 a %d): ", tamanho-1);
-        scanf("%d",&y2);
+        //escolher a primeira carta
+        do{
+            printf("\nEscolha a primeira carta: ");
+            printf("\nDigite uma linha (0 a %d): ", tamanho-1);
+            scanf("%d", &x1);
+            printf("Digite uma coluna (0 a %d): ", tamanho-1);
+            scanf("%d",&y1);
+            //checar se a carta já foi revelada e se está no intervalo de números válidos, se não, pedir novamente pra digitar
+            if((tema[x1][y1].revelado == 1) || (x1 < 0 || x1 >= tamanho) || (y1 < 0 || y1 >= tamanho)) printf("Erro! Escolha cartas não reveladas e válidas.\n");
+        } while((tema[x1][y1].revelado == 1) || (x1 < 0 || x1 >= tamanho) || (y1 < 0 || y1 >= tamanho));
+        //revelar carta e mostrar o tabuleiro
+        tema[x1][y1].revelado = 1;  
+        exibirTabuleiro(tema, tamanho);
+        
+        //escolher a segunda carta
+        do{
+            printf("Escolha a segunda carta: ");
+            printf("\nDigite uma linha (0 a %d): ", tamanho-1);
+            scanf("%d", &x2);
+            printf("Digite uma coluna (0 a %d): ", tamanho-1);
+            scanf("%d",&y2);
+            //checar se a carta já foi revelada e se está no intervalo de números válidos, se não, pedir novamente pra digitar
+            if((tema[x2][y2].revelado == 1) || (x2 < 0 || x2 >= tamanho) || (y2 < 0 || y2 >= tamanho)) printf("Erro! Escolha cartas não reveladas e válidas.\n");
+        } while((tema[x2][y2].revelado == 1) || (x2 < 0 || x2 >= tamanho) || (y2 < 0 || y2 >= tamanho));
 
         if (x1 == x2 && y1 == y2) { //verificar se o usuário escolheu as mesmas cartas
             printf("Erro! Escolha duas cartas diferentes!\n");
             continue;
-        } else if(tema[x1][y1].revelado == 1 || tema[x2][y2].revelado == 1){  //verificar se escolheu cartas já reveladas
-            printf("Erro! Escolha cartas que ainda não formaram um par!\n");
-            continue;
-        } else if((x1 < 0 || x1 >= tamanho) || (y1 < 0 || y1 >= tamanho) || (x2 < 0 || x2 >= tamanho) || (y2 < 0 || y2 >= tamanho)){    //verificar se o número da carta está dentro da matriz
-            printf("Erro! Escolha cartas válidas (0 a %d)!\n", tamanho-1);
-            continue;
-        }
-
-        //revelar as cartas escolhidas e mostrar o tabuleiro
-        tema[x1][y1].revelado = 1;  
+        } 
+        //revelar carta e mostrar o tabuleiro
         tema[x2][y2].revelado = 1;
         exibirTabuleiro(tema, tamanho);
 
