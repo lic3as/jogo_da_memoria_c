@@ -3,6 +3,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 // Definindo constantes para o tamanho máximo do tabuleiro e das strings
 #define TAM_MAX 10
@@ -28,24 +29,40 @@ int main() {
     char temas[3][TAM_MAX][MAX_STRING] = {
         {"Gato", "Cachorro", "Pato", "Vaca", "Cavalo", "Borboleta", "Peixe", "Pinguim", "Leão", "Girafa"},  // Tema 0: Animais
         {"Maçã", "Banana", "Laranja", "Goiaba", "Manga", "Melancia", "Limão", "Morango", "Caju", "Cajarana"},   // Tema 1: Frutas
-        {"++", "--", "##", "{}", "", "&&", "$$", "()", "[]", "@@"}    // Tema 2: Símbolos
+        {"++", "--", "##", "{}", "//", "&&", "$$", "()", "[]", "@@"}    // Tema 2: Símbolos
     };
     
     // Selecionar tema
+    char selecionarTema[0];
     int tema;
     // decidir se quer ou não continuar
     char continuar;
     int tamanho = 4;    //tabuleiro de tamanho 4
     do{
-        do {
             printf("Bem-vindo ao Jogo da Memória!\nTemas:\n");
             printf("0 - Animais\n");
             printf("1 - Frutas\n");
             printf("2 - Símbolos\n");
             printf("Informe o tema: ");
-            scanf("%d", &tema);
-            if (tema < 0 || tema > 2) printf("Opção inválida! Tente novamente.\n"); // testar se o tema é válido
-        } while (tema < 0 || tema > 2);
+            scanf("%s", selecionarTema); //recebe o valor em string
+            
+            // testar se o tema é válido
+
+            if (selecionarTema[0] != '0' || selecionarTema[0] != '1' || selecionarTema[0] != '2'){ 
+                while (true)
+                {
+                    printf("Opção inválida! Tente novamente.\n"); 
+                    printf("Informe o tema valido: ");
+                    scanf("%s", selecionarTema);
+                    if(selecionarTema[0] == '0' || selecionarTema[0] == '1' || selecionarTema[0] == '2'){ //se for uma string válida tranformar em inteiro
+                        if(isdigit(selecionarTema[0])){
+                            tema = selecionarTema[0] - '0'; //tranforma no numero inteiro correspondente na tabela asci
+                            break;  
+                        }
+                    }
+                }
+                
+            }        
         
         // Iniciar o jogo
         iniciar(tamanho, temas[tema], tamanho * tamanho / 2);   // Chama a função para criar as cartas do tabuleiro
