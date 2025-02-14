@@ -27,8 +27,8 @@ int main() {
     
     // Vetor com temas
     char temas[3][TAM_MAX][MAX_STRING] = {
-        {"Gato", "Cachorro", "Pato", "Vaca", "Cavalo", "Borboleta", "Peixe", "Pinguim", "Leão", "Girafa"},  // Tema 0: Animais
-        {"Maçã", "Banana", "Laranja", "Goiaba", "Manga", "Melancia", "Limão", "Morango", "Caju", "Cajarana"},   // Tema 1: Frutas
+        {"Gato", "Cachorro", "Pato", "Vaca", "Cavalo", "Borboleta", "Peixe", "Pinguim", "Abelha", "Girafa"},  // Tema 0: Animais
+        {"Uva", "Banana", "Laranja", "Goiaba", "Manga", "Melancia", "Acerola", "Morango", "Caju", "Cajarana"},   // Tema 1: Frutas
         {"++", "--", "##", "{}", "//", "&&", "$$", "()", "[]", "@@"}    // Tema 2: Símbolos
     };
     
@@ -39,10 +39,10 @@ int main() {
     char continuar;
     int tamanho = 4;    //tabuleiro de tamanho 4
     do{
-            printf("Bem-vindo ao Jogo da Memória!\nTemas:\n");
+            printf("Bem-vindo ao Jogo da Memoria!\nTemas:\n");
             printf("0 - Animais\n");
             printf("1 - Frutas\n");
-            printf("2 - Símbolos\n");
+            printf("2 - Simbolos\n");
             printf("Informe o tema: ");
             scanf("%s", selecionarTema); //recebe o valor em string
             
@@ -51,7 +51,7 @@ int main() {
             if (selecionarTema[0] != '0' || selecionarTema[0] != '1' || selecionarTema[0] != '2'){ 
                 while (true)
                 {
-                    printf("Opção inválida! Tente novamente.\n"); 
+                    printf("Opcao invalida! Tente novamente.\n"); 
                     printf("Informe o tema valido: ");
                     scanf("%s", selecionarTema);
                     if(selecionarTema[0] == '0' || selecionarTema[0] == '1' || selecionarTema[0] == '2'){ //se for uma string válida tranformar em inteiro
@@ -169,7 +169,7 @@ void jogar(Carta tema[TAM_MAX][TAM_MAX], int tamanho) {
             }
 
             //checar se a carta já foi revelada e se está no intervalo de números válidos, se não, pedir novamente pra digitar
-            if(tema[x1][y1].revelado == 1) printf("Erro! Escolha cartas não reveladas e válidas.\n");
+            if(tema[x1][y1].revelado == 1) printf("Erro! Escolha cartas nao reveladas e validas.\n");
 
         } while((tema[x1][y1].revelado == 1));
 
@@ -218,7 +218,7 @@ void jogar(Carta tema[TAM_MAX][TAM_MAX], int tamanho) {
             }
 
             //checar se a carta já foi revelada e se está no intervalo de números válidos, se não, pedir novamente pra digitar
-            if(tema[x2][y2].revelado == 1) printf("Erro! Escolha cartas não reveladas e válidas.\n");
+            if(tema[x2][y2].revelado == 1) printf("Erro! Escolha cartas nao reveladas e validas.\n");
         } while(tema[x2][y2].revelado == 1);
 
         if (x1 == x2 && y1 == y2) { //verificar se o usuário escolheu as mesmas cartas
@@ -236,7 +236,7 @@ void jogar(Carta tema[TAM_MAX][TAM_MAX], int tamanho) {
             tema[x2][y2].revelado = 1;
             paresEncontrados++;
         } else {    //senão tiver formado um par, avisar e esconder as cartas novamente
-            printf("Não formou um par. Tente novamente.\n");
+            printf("Nao formou um par. Tente novamente.\n");
             tema[x1][y1].revelado = 0;
             tema[x2][y2].revelado = 0;
         }
@@ -246,5 +246,5 @@ void jogar(Carta tema[TAM_MAX][TAM_MAX], int tamanho) {
     }
 
     //após fazer todos os pares, parabenizar e mostrar as tentativas
-    printf("Parabéns! Você completou o jogo em %d tentativas.\n", tentativas);
+    printf("Parabens!!! Você completou o jogo em %d tentativas.\n", tentativas);
 }
