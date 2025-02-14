@@ -32,37 +32,20 @@ int main() {
         {"++", "--", "##", "{}", "//", "&&", "$$", "()", "[]", "@@"}    // Tema 2: Símbolos
     };
     
-    // Selecionar tema
-    char selecionarTema[0];
     int tema;
     // decidir se quer ou não continuar
     char continuar;
     int tamanho = 4;    //tabuleiro de tamanho 4
     do{
+        do {
             printf("Bem-vindo ao Jogo da Memoria!\nTemas:\n");
             printf("0 - Animais\n");
             printf("1 - Frutas\n");
             printf("2 - Simbolos\n");
             printf("Informe o tema: ");
-            scanf("%s", selecionarTema); //recebe o valor em string
-            
-            // testar se o tema é válido
-
-            if (selecionarTema[0] != '0' || selecionarTema[0] != '1' || selecionarTema[0] != '2'){ 
-                while (true)
-                {
-                    printf("Opcao invalida! Tente novamente.\n"); 
-                    printf("Informe o tema valido: ");
-                    scanf("%s", selecionarTema);
-                    if(selecionarTema[0] == '0' || selecionarTema[0] == '1' || selecionarTema[0] == '2'){ //se for uma string válida tranformar em inteiro
-                        if(isdigit(selecionarTema[0])){
-                            tema = selecionarTema[0] - '0'; //tranforma no numero inteiro correspondente na tabela asci
-                            break;  
-                        }
-                    }
-                }
-                
-            }        
+            scanf("%d", &tema);
+            if (tema < 0 || tema > 2) printf("Opcao invalida! Tente novamente.\n"); // testar se o tema é válido
+        } while (tema < 0 || tema > 2);
         
         // Iniciar o jogo
         iniciar(tamanho, temas[tema], tamanho * tamanho / 2);   // Chama a função para criar as cartas do tabuleiro
@@ -132,94 +115,27 @@ void jogar(Carta tema[TAM_MAX][TAM_MAX], int tamanho) {
         //escolher a primeira carta
         do{
             printf("\nEscolha a primeira carta: ");
-            printf("\nDigite uma linha (1 a %d): ", tamanho);
+            printf("\nDigite uma linha (0 a %d): ", tamanho-1);
             scanf("%d", &x1);
-
-            x1 = x1 - 1; //usuario escolher linhas e colunas a partir do 1 (prevenÇão de erros)
-
-            if(x1 < 0 || x1 >= tamanho){ //verificar se o numero de linha é valido
-                while (true)
-                {
-                    printf("ERRO! escolha um numero entre 1 e %d.\n", tamanho);
-                    printf("Digite uma linha (1 a %d): ", tamanho);
-                    scanf("%d",&x1);
-                    x1 = x1 - 1;
-                    if(x1 > 0 && x1 < tamanho){
-                        break;
-                    }
-                }
-            }
-
-            printf("Digite uma coluna (1 a %d): ", tamanho);
+            printf("Digite uma coluna (0 a %d): ", tamanho-1);
             scanf("%d",&y1);
-
-            y1 = y1 - 1; //usuario escolher linhas e colunas a partir do 1 (prevenÇão de erros)
-
-            if(y1 < 0 || y1 >= tamanho){ //verificar se o numero da coluna é valido
-                while (true)
-                {
-                    printf("ERRO! escolha um numero entre 1 e %d.\n", tamanho);
-                    printf("Digite uma coluna (1 a %d): ", tamanho);
-                    scanf("%d",&y1);
-                    y1 = y1 - 1;
-                    if(y1 > 0 && y1 < tamanho){
-                        break;
-                    }
-                }
-            }
-
             //checar se a carta já foi revelada e se está no intervalo de números válidos, se não, pedir novamente pra digitar
-            if(tema[x1][y1].revelado == 1) printf("Erro! Escolha cartas nao reveladas e validas.\n");
-
-        } while((tema[x1][y1].revelado == 1));
-
+            if((tema[x1][y1].revelado == 1) || (x1 < 0 || x1 >= tamanho) || (y1 < 0 || y1 >= tamanho)) printf("Erro! Escolha cartas nao reveladas e validas.\n");
+        } while((tema[x1][y1].revelado == 1) || (x1 < 0 || x1 >= tamanho) || (y1 < 0 || y1 >= tamanho));
         //revelar carta e mostrar o tabuleiro
-        tema[x1][y1].revelado = 1; 
-
+        tema[x1][y1].revelado = 1;  
         exibirTabuleiro(tema, tamanho);
         
         //escolher a segunda carta
         do{
             printf("Escolha a segunda carta: ");
-            printf("\nDigite uma linha (1 a %d): ", tamanho);
+            printf("\nDigite uma linha (0 a %d): ", tamanho-1);
             scanf("%d", &x2);
-
-            x2 = x2 - 1; //usuario escolher linhas e colunas a partir do 1 (prevenÇão de erros)
-
-            if(x2 < 0 || x2 >= tamanho){ //verificar se o numero de linha é valido
-                while (true)
-                {
-                    printf("ERRO! escolha um numero entre 1 e %d.\n", tamanho);
-                    printf("Digite uma linha (1 a %d): ", tamanho);
-                    scanf("%d",&x2);
-                    x2 = x2 - 1;
-                    if(x2 > 0 && x2 < tamanho){
-                        break;
-                    }
-                }
-            }
-
-            printf("Digite uma coluna (1 a %d): ", tamanho);
+            printf("Digite uma coluna (0 a %d): ", tamanho-1);
             scanf("%d",&y2);
-
-            y2 = y2 - 1; //usuario escolher linhas e colunas a partir do 1 (prevenÇão de erros)
-
-            if(y2 < 0 || y2 >= tamanho){ //verificar se o numero de linha é valido
-                while (true)
-                {
-                    printf("ERRO! escolha um numero entre 1 e %d.\n", tamanho);
-                    printf("Digite uma coluna (1 a %d): ", tamanho);
-                    scanf("%d",&y2);
-                    y2 = y2 - 1;
-                    if(y2 > 0 && y2 < tamanho){
-                        break;
-                    }
-                }
-            }
-
             //checar se a carta já foi revelada e se está no intervalo de números válidos, se não, pedir novamente pra digitar
-            if(tema[x2][y2].revelado == 1) printf("Erro! Escolha cartas nao reveladas e validas.\n");
-        } while(tema[x2][y2].revelado == 1);
+            if((tema[x2][y2].revelado == 1) || (x2 < 0 || x2 >= tamanho) || (y2 < 0 || y2 >= tamanho)) printf("Erro! Escolha cartas nao reveladas e validas.\n");
+        } while((tema[x2][y2].revelado == 1) || (x2 < 0 || x2 >= tamanho) || (y2 < 0 || y2 >= tamanho));
 
         if (x1 == x2 && y1 == y2) { //verificar se o usuário escolheu as mesmas cartas
             printf("Erro! Escolha duas cartas diferentes!\n");
