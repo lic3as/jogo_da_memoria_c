@@ -44,7 +44,7 @@ int main() {
             printf("1 - Frutas\n");
             printf("2 - Símbolos\n");
             printf("Informe o tema: ");
-            scanf("%s", selecionarTema); //recebe o valor em string
+            scanf(" %s", selecionarTema); //recebe o valor em string
             
             // testar se o tema é válido
 
@@ -53,7 +53,7 @@ int main() {
                 {
                     printf("Opção inválida! Tente novamente.\n"); 
                     printf("Informe o tema valido: ");
-                    scanf("%s", selecionarTema);
+                    scanf(" %s", selecionarTema);
                     if(selecionarTema[0] == '0' || selecionarTema[0] == '1' || selecionarTema[0] == '2'){ //se for uma string válida tranformar em inteiro
                         if(isdigit(selecionarTema[0])){
                             tema = selecionarTema[0] - '0'; //tranforma no numero inteiro correspondente na tabela asci
@@ -131,47 +131,65 @@ void exibirTabuleiro(Carta tema[TAM_MAX][TAM_MAX], int tamanho) {
 // função parar jogar
 void jogar(Carta tema[TAM_MAX][TAM_MAX], int tamanho) {
     int x1, y1, x2, y2, tentativas = 0, paresEncontrados = 0;
+    char linha[0], coluna[0];
 
     while (paresEncontrados < (tamanho * tamanho) / 2) {    //enquanto a quantidade de pares for menor que a metade do jogo
         exibirTabuleiro(tema, tamanho);
         //escolher a primeira carta
+
         do{
             printf("\nEscolha a primeira carta: ");
             printf("\nDigite uma linha (1 a %d): ", tamanho);
-            scanf("%d", &x1);
+            scanf("%s", linha);
 
-            x1 = x1 - 1; //usuario escolher linhas e colunas a partir do 1 (prevenÇão de erros)
+            if(linha[0] == '1' || linha[0] == '2' || linha[0] == '3' || linha[0] == '4'){ //verificar se o caractere é valido
+                if(isdigit(linha[0])){
+                            x1 = linha[0] - '0'; //tranformar no inteiro correspondente ao caractere valido
+                            x1 = x1 - 1; // usuario digitar a linha comecando em 1
+                }
+            }
 
-            if(x1 < 0 || x1 >= tamanho){ //verificar se o numero de linha é valido
+            else if(linha[0] != '1' && linha[0] != '2' && linha[0] != '3' && linha[0] != '4'){ //verificar se o numero de linha é valido
                 while (true)
                 {
                     printf("ERRO! escolha um numero entre 1 e %d.\n", tamanho);
                     printf("Digite uma linha (1 a %d): ", tamanho);
-                    scanf("%d",&x1);
-                    x1 = x1 - 1;
-                    if(x1 >= 0 && x1 < tamanho){
-                        break;
+                    scanf("%s", linha);
+                    if(linha[0] == '1' || linha[0] == '2' || linha[0] == '3' || linha[0] == '4'){ // quando for valido quebrar o laco
+                        if(isdigit(linha[0])){
+                            x1 = linha[0] - '0'; //tranformar no inteiro correspondente ao caractere valido
+                            x1 = x1 - 1; // usuario digitar a linha comecando em 1
+                            break;
+                        }
                     }
+                }
+            }    
+
+            printf("Digite uma coluna (1 a %d): ", tamanho);
+            scanf("%s", coluna);
+
+            if(coluna[0] == '1' || coluna[0] == '2' || coluna[0] == '3' || coluna[0] == '4'){ //verificar se o caractere é valido
+                if(isdigit(coluna[0])){
+                            y1 = coluna[0] - '0'; //tranformar no inteiro correspondente ao caractere valido
+                            y1 = y1 - 1; // usuario digitar a coluna comecando em 1
                 }
             }
 
-            printf("Digite uma coluna (1 a %d): ", tamanho);
-            scanf("%d",&y1);
-
-            y1 = y1 - 1; //usuario escolher linhas e colunas a partir do 1 (prevenÇão de erros)
-
-            if(y1 < 0 || y1 >= tamanho){ //verificar se o numero da coluna é valido
+            else if(coluna[0] != '1' && coluna[0] != '2' && coluna[0] != '3' && coluna[0] != '4'){ //verificar se o numero de coluna é valido
                 while (true)
                 {
                     printf("ERRO! escolha um numero entre 1 e %d.\n", tamanho);
                     printf("Digite uma coluna (1 a %d): ", tamanho);
-                    scanf("%d",&y1);
-                    y1 = y1 - 1;
-                    if(y1 >= 0 && y1 < tamanho){
-                        break;
+                    scanf("%s", coluna);
+                    if(coluna[0] == '1' || coluna[0] == '2' || coluna[0] == '3' || coluna[0] == '4'){ // quando for valido quebrar o laco
+                        if(isdigit(coluna[0])){
+                            y1 = coluna[0] - '0'; //tranformar no inteiro correspondente ao caractere valido
+                            y1 = y1 - 1; // usuario digitar a linha comecando em 1
+                            break;
+                        }
                     }
                 }
-            }
+            }    
 
             //checar se a carta já foi revelada e se está no intervalo de números válidos, se não, pedir novamente pra digitar
             if(tema[x1][y1].revelado == 1) printf("Erro! Escolha cartas não reveladas e válidas.\n");
@@ -187,40 +205,57 @@ void jogar(Carta tema[TAM_MAX][TAM_MAX], int tamanho) {
         do{
             printf("Escolha a segunda carta: ");
             printf("\nDigite uma linha (1 a %d): ", tamanho);
-            scanf("%d", &x2);
+            scanf("%s", linha);
 
-            x2 = x2 - 1; //usuario escolher linhas e colunas a partir do 1 (prevenÇão de erros)
+            if(linha[0] == '1' || linha[0] == '2' || linha[0] == '3' || linha[0] == '4'){ //verificar se o caractere é valido
+                if(isdigit(linha[0])){
+                            x2 = linha[0] - '0'; //tranformar no inteiro correspondente ao caractere valido
+                            x2 = x2 - 1; // usuario digitar a linha comecando em 1
+                }
+            }
 
-            if(x2 < 0 || x2 >= tamanho){ //verificar se o numero de linha é valido
+            else if(linha[0] != '1' && linha[0] != '2' && linha[0] != '3' && linha[0] != '4'){ //verificar se o numero de linha é valido
                 while (true)
                 {
                     printf("ERRO! escolha um numero entre 1 e %d.\n", tamanho);
                     printf("Digite uma linha (1 a %d): ", tamanho);
-                    scanf("%d",&x2);
-                    x2 = x2 - 1;
-                    if(x2 >= 0 && x2 < tamanho){
-                        break;
+                    scanf("%s", linha);
+                    if(linha[0] == '1' || linha[0] == '2' || linha[0] == '3' || linha[0] == '4'){ // quando for valido quebrar o laco
+                        if(isdigit(linha[0])){
+                            x2 = linha[0] - '0'; //tranformar no inteiro correspondente ao caractere valido
+                            x2 = x2 - 1; // usuario digitar a linha comecando em 1
+                            break;
+                        }
                     }
+                }
+            }   
+
+            printf("Digite uma coluna (1 a %d): ", tamanho);
+            scanf("%s", coluna);
+
+            if(coluna[0] == '1' || coluna[0] == '2' || coluna[0] == '3' || coluna[0] == '4'){ //verificar se o caractere é valido
+                if(isdigit(coluna[0])){
+                            y2 = coluna[0] - '0'; //tranformar no inteiro correspondente ao caractere valido
+                            y2 = y2 - 1; // usuario digitar a coluna comecando em 1
                 }
             }
 
-            printf("Digite uma coluna (1 a %d): ", tamanho);
-            scanf("%d",&y2);
-
-            y2 = y2 - 1; //usuario escolher linhas e colunas a partir do 1 (prevenÇão de erros)
-
-            if(y2 < 0 || y2 >= tamanho){ //verificar se o numero de linha é valido
+            else if(coluna[0] != '1' && coluna[0] != '2' && coluna[0] != '3' && coluna[0] != '4'){ //verificar se o numero de coluna é valido
                 while (true)
                 {
                     printf("ERRO! escolha um numero entre 1 e %d.\n", tamanho);
                     printf("Digite uma coluna (1 a %d): ", tamanho);
-                    scanf("%d",&y2);
-                    y2 = y2 - 1;
-                    if(y2 >= 0 && y2 < tamanho){
-                        break;
+                    scanf("%s", coluna);
+                    if(coluna[0] == '1' || coluna[0] == '2' || coluna[0] == '3' || coluna[0] == '4'){ // quando for valido quebrar o laco
+                        if(isdigit(coluna[0])){
+                            y2 = coluna[0] - '0'; //tranformar no inteiro correspondente ao caractere valido
+                            y2 = y2 - 1; // usuario digitar a linha comecando em 1
+                            break;
+                        }
                     }
                 }
-            }
+            }    
+
 
             //checar se a carta já foi revelada e se está no intervalo de números válidos, se não, pedir novamente pra digitar
             if(tema[x2][y2].revelado == 1) printf("Erro! Escolha cartas não reveladas e válidas.\n");
